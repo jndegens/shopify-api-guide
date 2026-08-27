@@ -32,3 +32,48 @@
 .publish-step .setup-copy{border-color:rgba(243,199,65,.42);background:linear-gradient(135deg,rgba(243,199,65,.1),rgba(255,255,255,.025))}
 
 @media(max-width:760px){.setup-steps>li{padding-left:47px}.setup-steps>li:not(:last-child):before{top:36px;left:16px}.setup-index{width:34px;height:34px}.setup-copy{padding:16px}.step-value{grid-template-columns:1fr}.step-value .copy{width:100%}}
+
+/* Readable typography across the guide */
+.brand{font-size:13px}
+.status{font-size:12px}
+.eyebrow{font-size:12px}
+.hero-video span{font-size:14px}
+.route-grid b{font-size:12px}
+.route-grid strong{font-size:15px}
+.route-grid span{font-size:13px;line-height:1.45}
+.copy{font-size:13px}
+.step-number{font-size:12px}
+.help-button{font-size:12px}
+.short-steps b,.short-steps span{font-size:14px}
+.values-stack span,.scope-output>span,.publish-callout span,.generated-link>span{font-size:11px}
+.values-stack code{font-size:13px}
+.picker-head p{font-size:14px}
+.picker-actions>button:last-child{font-size:12px}
+.bundle strong{font-size:14px}
+.bundle small{font-size:12px}
+.scope-output code{font-size:12px}
+.publish-callout p,.scope-warning{font-size:13px}
+.link-form label>span,.secret-form label>span{font-size:15px}
+.link-form label>small{font-size:13px}
+.link-form input,.secret-form input{font-size:14px}
+.field-message,.microcopy{font-size:13px}
+.generated-link code{font-size:12px}
+.generated-link a{font-size:13px}
+.security p{font-size:13px}
+.security code{font-size:12px}
+footer p{font-size:13px}
+.modal-intro{font-size:15px}
+.help-modal li{font-size:14px}
+.mini-video strong{font-size:14px}
+.mini-video small{font-size:12px}
+.callback-error p,.secret-form>p,.token-result>p{font-size:14px}
+.store-confirm span,.token-result>span{font-size:11px}
+.token-result dt,.token-result dd{font-size:12px}
+.step-intro{font-size:15px}
+.setup-copy>b{font-size:18px}
+.setup-copy>p{font-size:15px}
+.dashboard-link{font-size:14px}
+.setup-copy>.fallback-route{font-size:13px}
+.step-value code{font-size:13px}
+
+@media(max-width:760px){.hero>p:not(.eyebrow){font-size:16px}}
