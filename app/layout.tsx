@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { Inter, JetBrains_Mono, Sora } from 'next/font/google';
 import './globals.css';
 
 const inter = Inter({ variable: '--font-inter', subsets: ['latin'] });
 const mono = JetBrains_Mono({ variable: '--font-mono', subsets: ['latin'] });
+const sora = Sora({ variable: '--font-sora', subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Permanente Shopify API-token maken — Dropship Academy',
@@ -20,5 +21,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="nl"><body className={`${inter.variable} ${mono.variable}`}>{children}</body></html>;
+  return <html lang="nl"><body className={`${inter.variable} ${mono.variable} ${sora.variable}`}>{children}</body></html>;
 }
