@@ -90,9 +90,20 @@ function normalizeShop(value: string): ShopResult {
 }
 
 function CopyButton({ value, children = 'Kopieer' }: { value: string; children?: React.ReactNode }) {
-  const [copied, setCopied] = useState(false);
-  async function copy() { await navigator.clipboard.writeText(value); setCopied(true); window.setTimeout(() => setCopied(false), 1600); }
-  return <button className="copy-button" type="button" onClick={copy} disabled={!value}>{copied ? 'Gekopieerd ✓' : children}</button>;
+  const [status, setStatus] = useState<'idle' | 'copied' | 'error'>('idle');
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(value);
+      setStatus('copied');
+    } catch {
+      setStatus('error');
+    }
+    window.setTimeout(() => setStatus('idle'), 2400);
+  }
+
+  const label = status === 'copied' ? 'Gekopieerd ✓' : status === 'error' ? 'Kopiëren mislukt — selecteer handmatig' : children;
+  return <button className="copy-button" type="button" onClick={copy} disabled={!value} aria-live="polite">{label}</button>;
 }
 
 function MiniScreen({ kind }: { kind: 'admin-apps' | 'admin-development' | 'create' | 'config' | 'install' }) {
@@ -106,7 +117,7 @@ function MiniScreen({ kind }: { kind: 'admin-apps' | 'admin-development' | 'crea
 }
 
 function ShopifyFrame({ host, children }: { host: string; children: React.ReactNode }) {
-  return <figure className="shopify-frame" aria-label="Gesaneerde reconstructie van de actuele Shopify-interface"><div className="browser-chrome"><span /><span /><span /><div>🔒 {host}</div></div>{children}<figcaption>Actuele, gesaneerde reconstructie · accountgegevens en geheimen zijn afgeschermd.</figcaption></figure>;
+  return <figure className="shopify-frame" role="img" aria-label={`Privacy-veilige weergave van de actuele Shopify-interface op ${host}`}><div aria-hidden="true"><div className="browser-chrome"><span /><span /><span /><div>🔒 {host}</div></div>{children}</div><figcaption>Actuele, privacy-veilige reconstructie · accountgegevens en geheimen zijn afgeschermd.</figcaption></figure>;
 }
 
 function DevTop() {
