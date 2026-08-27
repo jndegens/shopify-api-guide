@@ -6,13 +6,12 @@ Productie: `https://agents.dropshipacademy.nl/shopify-api`
 
 ## Gebruikersflow
 
-1. Maak in het Shopify Dev Dashboard een app en versie aan.
-2. Configureer de App-URL en exacte toegestane omleidings-URL die de pagina toont.
-3. Kies scopes en geef de versie vrij.
-4. Plak de Shopify Admin-URL en Client ID in de generator.
-5. Keur de installatie in Shopify goed.
-6. Vul de Client secret pas op de callbackpagina in.
-7. Kopieer de uitgegeven offline token naar de secretopslag van het juiste AI-project.
+De website groepeert alles in vier korte stappen:
+
+1. Maak de app en versie aan, plak de vaste App-URL en omleidings-URL, kopieer de gewenste scopes en klik **Vrijgeven**.
+2. Plak de Shopify Admin-URL en Client ID. De generator maakt de persoonlijke installatielink.
+3. Open die link en keur de appinstallatie in Shopify goed.
+4. Shopify stuurt je automatisch terug. Vul daar eenmalig de Client secret in en kopieer de permanente offline Admin API-token naar de secretopslag van het juiste project.
 
 De pagina accepteert ook lange Admin-URL's zoals `https://admin.shopify.com/store/winkelnaam/apps/...` en zet die lokaal om naar `winkelnaam.myshopify.com`.
 
@@ -27,9 +26,15 @@ De pagina accepteert ook lange Admin-URL's zoals `https://admin.shopify.com/stor
 
 De callback is geen webhook: hij voltooit alleen de OAuth-installatie. Webhooks zijn afzonderlijke Shopify-meldingen voor latere gebeurtenissen.
 
-## Screenshots
+## Scopes
 
-De pagina bevat drie duidelijke tijdelijke screenshotvakken. Vervang die door echte, door Dropship Academy aangeleverde Shopify-screenshots; er worden bewust geen nagemaakte dashboards gebruikt.
+De scopekiezer bevat de 154 Admin API-scopes die op 27 augustus 2026 daadwerkelijk in Shopify Dev Dashboard werden getoond. Ze zijn voor studenten verdeeld over acht taakgroepen, maar blijven als één Shopify-regel kopieerbaar. Alle groepen staan standaard aan.
+
+Sommige scopes zijn beschermd of vereisen aanvullende Shopify-goedkeuring. Als Shopify zo'n scope weigert, schakel je alleen de betreffende taakgroep uit. De niet-bestaande scope `read_shopify_payments_dispute_evidences` staat nadrukkelijk niet in de lijst.
+
+## Opnemen van de uitlegvideo
+
+Toon in de video alleen de vier genummerde stappen op de website. Neem nooit de Client secret of de uiteindelijke token op. Shopify-schermen veranderen regelmatig; gebruik daarom echte opnames uit de teststore in plaats van nagemaakte dashboardafbeeldingen.
 
 ## Lokaal draaien en controleren
 
