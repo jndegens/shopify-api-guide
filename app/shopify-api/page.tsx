@@ -45,7 +45,6 @@ const groups: ScopeGroup[] = [
   { id: 'finance', title: 'Financiën', summary: 'Uitbetalingen en geschillen van Shopify Payments.', level: 'approval', scopes: [
     { id: 'read_shopify_payments_payouts', label: 'Uitbetalingen lezen', detail: 'Payouts, saldo en transacties bekijken.' },
     { id: 'read_shopify_payments_disputes', label: 'Geschillen lezen', detail: 'Shopify Payments-disputes bekijken.' },
-    { id: 'read_shopify_payments_dispute_evidences', label: 'Bewijsstukken lezen', detail: 'Informatie bij betaalgeschillen bekijken.' },
   ]},
 ];
 const starter = ['write_products', 'read_product_listings', 'write_inventory', 'read_locations'];
