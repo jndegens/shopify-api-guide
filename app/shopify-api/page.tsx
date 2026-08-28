@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 const APP_URL = 'https://agents.dropshipacademy.nl/shopify-api';
@@ -81,6 +82,7 @@ function HelpModal({ topic, close }: { topic: HelpKey | null; close: () => void 
 }
 
 export default function ShopifyApiPage() {
+  const [videoStarted, setVideoStarted] = useState(false);
   const [shopInput, setShopInput] = useState('');
   const [clientId, setClientId] = useState('');
   const [selected, setSelected] = useState<string[]>(allBundleIds);
@@ -106,7 +108,7 @@ export default function ShopifyApiPage() {
   const openHelp = (topic: HelpKey) => setHelpTopic(topic);
   return <main>
     <header className="site-header"><a href="https://agents.dropshipacademy.nl/" className="brand"><span>DSA</span> Agents & Skills</a><span className="status"><i /> Shopify API</span></header>
-    <section className="hero compact-hero"><p className="eyebrow">SHOPIFY API · 4 KORTE STAPPEN</p><h1>Je Shopify API-token.<br/><em>In vier duidelijke stappen.</em></h1><p>Volg de video of doe de vier acties hieronder. De pagina maakt de juiste OAuth-link en brengt je na installatie terug voor je token.</p><div className="hero-video"><iframe src="https://player.vimeo.com/video/1222054497?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" title="Shopify API token" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /></div><div className="route-grid" aria-label="Vier stappen"><div><b>01</b><strong>App maken</strong><span>URL&apos;s, scopes, vrijgeven</span></div><div><b>02</b><strong>Link maken</strong><span>Admin-URL + Client ID</span></div><div><b>03</b><strong>Installeren</strong><span>Openen en goedkeuren</span></div><div><b>04</b><strong>Token opslaan</strong><span>Secret invullen, klaar</span></div></div></section>
+    <section className="hero compact-hero"><p className="eyebrow">SHOPIFY API · 4 KORTE STAPPEN</p><h1>Je Shopify API-token.<br/><em>In vier duidelijke stappen.</em></h1><p>Volg de video of doe de vier acties hieronder. De pagina maakt de juiste OAuth-link en brengt je na installatie terug voor je token.</p><div className="hero-video">{videoStarted ? <iframe src="https://player.vimeo.com/video/1222054497?autoplay=1&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" title="Shopify API-token stap voor stap" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /> : <button type="button" className="video-thumbnail" onClick={() => setVideoStarted(true)} aria-label="Start de Shopify API-video"><Image src="/shopify-api-thumbnail.png" alt="Shopify API-token stap voor stap" fill sizes="(max-width: 760px) 100vw, 920px" priority /><span className="video-play" aria-hidden="true">▶</span></button>}</div><div className="route-grid" aria-label="Vier stappen"><div><b>01</b><strong>App maken</strong><span>URL&apos;s, scopes, vrijgeven</span></div><div><b>02</b><strong>Link maken</strong><span>Admin-URL + Client ID</span></div><div><b>03</b><strong>Installeren</strong><span>Openen en goedkeuren</span></div><div><b>04</b><strong>Token opslaan</strong><span>Secret invullen, klaar</span></div></div></section>
     <section className="wizard-shell" id="stappen">
       <article className="wizard-step"><div className="step-number">01</div><div className="step-body"><div className="step-title"><div><p className="eyebrow dark">EENMALIG IN SHOPIFY</p><h2>Maak de app klaar</h2><p className="step-intro">Werk deze zes stappen van boven naar beneden af. Je blijft hiervoor in Shopify.</p></div><HelpButton topic="app" open={openHelp} /></div>
         <ol className="setup-steps">
