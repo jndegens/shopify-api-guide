@@ -13,7 +13,7 @@ De website groepeert alles in vier korte stappen:
 3. Open die link en keur de appinstallatie in Shopify goed.
 4. Shopify stuurt je automatisch terug. Vul daar eenmalig de Client secret in en kopieer de permanente offline Admin API-token naar de secretopslag van het juiste project.
 
-De pagina accepteert ook lange Admin-URL's zoals `https://admin.shopify.com/store/winkelnaam/apps/...` en zet die lokaal om naar `winkelnaam.myshopify.com`.
+De pagina accepteert ook lange Admin-URL's zoals `https://admin.shopify.com/store/winkelnaam/apps/...`, zet die om naar `winkelnaam.myshopify.com` en zoekt via `/meta.json` het vaste `myshopify_domain` op. Nieuwere stores hebben een willekeurig vast adres (bijv. `ab12cd-3e.myshopify.com`) dat afwijkt van de naam in de Admin-URL. De terugkeerpagina neemt daarom de `shop` over die Shopify terugstuurt, mits die een geldig `*.myshopify.com`-adres is; `state` en HMAC blijven de beveiliging.
 
 ## Beveiligingsgrenzen
 

@@ -55,7 +55,7 @@ type HelpKey = 'app' | 'scopes' | 'admin-url' | 'client-id' | 'install' | 'token
 const helpContent: Record<HelpKey, { title: string; intro: string; steps: string[]; video: string }> = {
   app: { title: 'Waar maak je de app?', intro: 'Je begint altijd in de Shopify Admin van de store die je wilt koppelen.', steps: ['Klik linksonder op Instellingen.', 'Open Apps en verkoopkanalen.', 'Klik Apps ontwikkelen en daarna Apps bouwen in Dev Dashboard.', 'Maak een app en vervolgens een nieuwe versie.'], video: 'Video: app aanmaken' },
   scopes: { title: 'Waar plak je de scopes?', intro: 'De scopes horen in de versie van je app, onder API-toegang.', steps: ['Open je app in het Dev Dashboard.', 'Open de versie of klik Versie aanmaken.', 'Ga naar API-toegang en kies Bereiken selecteren.', 'Selecteer de gekopieerde scopes en klik rechtsboven op Vrijgeven.'], video: 'Video: scopes en versie vrijgeven' },
-  'admin-url': { title: 'Waar vind je de Shopify Admin-URL?', intro: 'Dit is gewoon de URL die boven in je browser staat terwijl je Shopify beheert.', steps: ['Open de juiste Shopify-store.', 'Kopieer de volledige URL uit de adresbalk.', 'Een URL zoals admin.shopify.com/store/jouw-store/apps/... is goed.', 'Plak hem in stap 2; wij halen automatisch het permanente winkeldomein eruit.'], video: 'Video: Admin-URL kopiëren' },
+  'admin-url': { title: 'Waar vind je de Shopify Admin-URL?', intro: 'Dit is gewoon de URL die boven in je browser staat terwijl je Shopify beheert.', steps: ['Open de juiste Shopify-store.', 'Kopieer de volledige URL uit de adresbalk.', 'Een URL zoals admin.shopify.com/store/jouw-store/apps/... is goed.', 'Plak hem in stap 2; wij zoeken automatisch het vaste .myshopify.com-adres van je store op.'], video: 'Video: Admin-URL kopiëren' },
   'client-id': { title: 'Waar vind je de Client ID?', intro: 'De Client ID staat bij de inloggegevens van de app in het Shopify Dev Dashboard.', steps: ['Open Apps in het Dev Dashboard.', 'Klik op de app die je zojuist hebt gemaakt.', 'Open Instellingen en daarna Credentials of Inloggegevens.', 'Kopieer alleen de Client ID. Deel je Client secret nog nergens.'], video: 'Video: Client ID vinden' },
   install: { title: 'Waar installeer je de app?', intro: 'Je installeert via de persoonlijke link die stap 2 voor je maakt.', steps: ['Klik op Maak mijn installatielink.', 'Klik daarna op Open in Shopify.', 'Controleer bovenaan of de juiste store staat geselecteerd.', 'Bekijk de rechten en klik onderaan op Installeren.'], video: 'Video: app installeren' },
   token: { title: 'Hoe krijg je de API-token?', intro: 'Na Installeren brengt Shopify je automatisch terug naar onze beveiligde terugkeerpagina.', steps: ['Open in het Dev Dashboard de Credentials van dezelfde app.', 'Kopieer de Client secret.', 'Plak hem alleen in het beveiligde veld op de terugkeerpagina.', 'Klik Token maken en sla de token direct op als secret van deze store.'], video: 'Video: token veilig ophalen' },
@@ -88,7 +88,22 @@ export default function ShopifyApiPage() {
   const [selected, setSelected] = useState<string[]>(allBundleIds);
   const [authorizationUrl, setAuthorizationUrl] = useState('');
   const [helpTopic, setHelpTopic] = useState<HelpKey | null>(null);
-  const shop = useMemo(() => normalizeShop(shopInput), [shopInput]);
+  const parsedShop = useMemo(() => normalizeShop(shopInput), [shopInput]);
+  const [resolved, setResolved] = useState<{ from: string; domain: string } | null>(null);
+  useEffect(() => {
+    if (!parsedShop.domain) return;
+    const from = parsedShop.domain; const controller = new AbortController(); let timeout = 0;
+    const start = window.setTimeout(() => {
+      timeout = window.setTimeout(() => controller.abort(), 6000);
+      fetch(`https://${from}/meta.json`, { signal: controller.signal, cache: 'no-store' })
+        .then((response) => response.ok ? response.json() as Promise<{ myshopify_domain?: string }> : null)
+        .then((meta) => { const domain = (meta?.myshopify_domain || '').toLowerCase(); if (/^[a-z0-9][a-z0-9-]*\.myshopify\.com$/.test(domain)) setResolved({ from, domain }); })
+        .catch(() => {})
+        .finally(() => window.clearTimeout(timeout));
+    }, 400);
+    return () => { window.clearTimeout(start); window.clearTimeout(timeout); controller.abort(); };
+  }, [parsedShop.domain]);
+  const shop = resolved && resolved.from === parsedShop.domain ? { ...parsedShop, domain: resolved.domain } : parsedShop;
   const scopes = useMemo(
     () => bundles.filter((bundle) => selected.includes(bundle.id)).flatMap((bundle) => bundle.scopes).join(','),
     [selected],
